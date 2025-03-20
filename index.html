@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易吃豆人游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="score-container">
+            <span>分数: <span id="score">0</span></span>
+            <span>生命: <span id="lives">5</span></span>
+            <button id="help-btn" class="help-button">帮助</button>
+        </div>
+        <div id="game-board"></div>
+        <div class="controls-container">
+            <div class="d-pad">
+                <button id="up-btn">↑</button>
+                <div class="horizontal-buttons">
+                    <button id="left-btn">←</button>
+                    <button id="right-btn">→</button>
+                </div>
+                <button id="down-btn">↓</button>
+            </div>
+        </div>
+        
+        <!-- 教程消息 -->
+        <div class="tutorial-box hidden" id="tutorial-message">
+            <h3>游戏指导</h3>
+            <p>用方向键或按钮移动吃豆人</p>
+            <p>收集所有黄点以获胜</p>
+            <p>吃闪烁的大豆后可以暂时吃掉幽灵</p>
+            <button id="close-tutorial">明白了</button>
+        </div>
+        
+        <!-- 开始模态框 -->
+        <div class="modal" id="start-modal">
+            <div class="modal-content">
+                <h2>简易吃豆人游戏</h2>
+                <div class="instructions">
+                    <h3>游戏说明:</h3>
+                    <ul>
+                        <li>移动吃豆人收集迷宫中的所有豆子</li>
+                        <li>使用键盘方向键或屏幕按钮控制移动</li>
+                        <li>避开彩色幽灵，它们会减少你的生命</li>
+                        <li>吃到闪烁的大能量豆后，可以暂时吃掉幽灵获得额外分数</li>
+                        <li>收集所有豆子即可获胜！</li>
+                    </ul>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-dot"></div>
+                            <span>普通豆子 (10分)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-power-dot"></div>
+                            <span>能量豆 (50分 + 可以吃幽灵)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-pacman"></div>
+                            <span>吃豆人 (你控制的角色)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-ghost red"></div>
+                            <span>幽灵 (避开它们)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-ghost blue"></div>
+                            <span>受惊幽灵 (可以吃掉)</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="start-btn" class="big-button">开始游戏</button>
+            </div>
+        </div>
+        
+        <!-- 游戏结束模态框 -->
+        <div class="modal hidden" id="game-over-modal">
+            <div class="modal-content">
+                <h2>游戏结束</h2>
+                <p>你的分数: <span id="final-score">0</span></p>
+                <button id="restart-btn" class="big-button">再玩一次</button>
+            </div>
+        </div>
+        
+        <!-- 帮助模态框 -->
+        <div class="modal hidden" id="help-modal">
+            <div class="modal-content">
+                <h2>游戏帮助</h2>
+                <div class="instructions">
+                    <h3>操作方法:</h3>
+                    <p>电脑: 使用键盘方向键 ↑ ↓ ← →</p>
+                    <p>手机: 使用屏幕下方的方向按钮</p>
+                    
+                    <h3>游戏目标:</h3>
+                    <p>收集迷宫中的所有豆子以获胜</p>
+                    
+                    <h3>游戏技巧:</h3>
+                    <ul>
+                        <li>当幽灵靠近时，寻找能量豆</li>
+                        <li>吃能量豆后，幽灵会变蓝并逃跑</li>
+                        <li>蓝色幽灵可以被吃掉获得额外分数</li>
+                        <li>提前规划路线，避免被幽灵困住</li>
+                    </ul>
+                </div>
+                <button id="close-help" class="big-button">返回游戏</button>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 

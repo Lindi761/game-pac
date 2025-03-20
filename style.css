@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 16px;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.help-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    background-color: #4b4bff;
+}
+
+#game-board {
+    background-color: #000;
+    border: 2px solid #2121DE;
+    display: grid;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    transition: all 0.3s ease;
+}
+
+/* 电源激活效果 */
+#game-board.power-activated {
+    border-color: #FFFF00;
+    box-shadow: 0 0 15px #FFFF00;
+    animation: flash 0.5s;
+}
+
+/* 电源即将结束警告效果 */
+#game-board.power-warning {
+    animation: warning-flash 0.5s infinite alternate;
+}
+
+.cell {
+    border: 1px solid #222;
+    position: relative;
+}
+
+.wall {
+    background-color: #2121DE;
+}
+
+.dot {
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    background-color: #FFFF00;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.power-dot {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background-color: #FFFF00;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 0.5s infinite alternate;
+}
+
+.pacman {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: #FFFF00;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.ghost {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border-radius: 50% 50% 0 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ghost.red { background-color: red; }
+.ghost.pink { background-color: pink; }
+.ghost.cyan { background-color: cyan; }
+.ghost.orange { background-color: orange; }
+
+.ghost.frightened {
+    background-color: blue;
+    animation: blink 0.5s infinite alternate;
+}
+
+.controls-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.d-pad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.horizontal-buttons {
+    display: flex;
+    gap: 50px;
+}
+
+button {
+    background-color: #2121DE;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+button:active {
+    background-color: #4242FF;
+}
+
+.big-button {
+    padding: 15px 30px;
+    font-size: 1.4rem;
+    background-color: #FFFF00;
+    color: black;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.big-button:active {
+    background-color: #ffff33;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.modal-content {
+    background-color: #2121DE;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #FFFF00;
+}
+
+.modal h3 {
+    margin: 15px 0 10px;
+    color: #FFFF00;
+}
+
+.modal button {
+    background-color: #FFFF00;
+    color: black;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+.instructions {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.instructions ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* 图例样式 */
+.legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 15px 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.legend-dot, 
+.legend-power-dot, 
+.legend-pacman, 
+.legend-ghost {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot {
+    background-color: #FFFF00;
+}
+
+.legend-power-dot {
+    background-color: #FFFF00;
+    width: 30px;
+    height: 30px;
+}
+
+.legend-pacman {
+    background-color: #FFFF00;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.legend-ghost {
+    border-radius: 50% 50% 0 0;
+    height: 25px;
+}
+
+.legend-ghost.red {
+    background-color: red;
+}
+
+.legend-ghost.blue {
+    background-color: blue;
+}
+
+/* 教程提示框 */
+.tutorial-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(33, 33, 222, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    max-width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    animation: slideIn 0.5s ease-out;
+}
+
+.tutorial-box h3 {
+    margin-bottom: 10px;
+    color: #FFFF00;
+}
+
+.tutorial-box p {
+    margin-bottom: 8px;
+}
+
+.tutorial-box button {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes pulse {
+    from { transform: translate(-50%, -50%) scale(0.8); }
+    to { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+@keyframes blink {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes flash {
+    0% { border-color: #2121DE; box-shadow: none; }
+    50% { border-color: #FFFF00; box-shadow: 0 0 20px #FFFF00; }
+    100% { border-color: #2121DE; box-shadow: none; }
+}
+
+@keyframes warning-flash {
+    from { border-color: #2121DE; }
+    to { border-color: #FF4500; box-shadow: 0 0 10px #FF4500; }
+}
+
+/* 响应式样式 */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .game-container {
+        max-width: 95%;
+    }
+    
+    .controls-container {
+        margin-top: 10px;
+    }
+    
+    button {
+        padding: 12px 15px;
+    }
+    
+    .tutorial-box {
+        bottom: 70px;
+        right: 10px;
+        max-width: 250px;
+    }
+
+    .modal-content {
+        padding: 15px;
+        max-height: 80vh;
+    }
+    
+    .modal h2 {
+        font-size: 1.5rem;
+    }
+    
+    .instructions li {
+        margin-bottom: 5px;
+    }
+}
+
+/* 针对较小屏幕的额外优化 */
+@media (max-width: 400px) {
+    .score-container {
+        font-size: 1rem;
+    }
+    
+    .d-pad button {
+        padding: 10px 12px;
+        font-size: 1rem;
+    }
+    
+    .horizontal-buttons {
+        gap: 30px;
+    }
+} 
